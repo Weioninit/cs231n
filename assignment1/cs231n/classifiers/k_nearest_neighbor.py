@@ -71,7 +71,7 @@ class KNearestNeighbor(object):
         # training point, and store the result in dists[i, j]. You should   #
         # not use a loop over dimension.                                    #
         #####################################################################
-        dists[i,j]=np.sqrt(np.sum(np.square(self.X_train[j,:]-X[i,:])))
+        dists[i,j] = np.sqrt(np.sum(np.square(X[i] - self.X_train[j])))
         #####################################################################
         #                       END OF YOUR CODE                            #
         #####################################################################
@@ -93,7 +93,7 @@ class KNearestNeighbor(object):
       # Compute the l2 distance between the ith test point and all training #
       # points, and store the result in dists[i, :].                        #
       #######################################################################
-      dists[i]=np.sqrt(np.sum(np.square(self.X_train-X[i]),axis=1))
+      dists[i] = np.sqrt(np.sum(np.square(self.X_train - X[i]), axis = 1))
       #######################################################################
       #                         END OF YOUR CODE                            #
       #######################################################################
@@ -121,14 +121,9 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    test=np.sum(np.square(X),axis=1)
-    # print np.matrix(test).shape
-    train=np.sum(np.square(self.X_train),axis=1)
-    # print np.matrix(train).shape
-    trans=np.dot(X,self.X_train.T)
-    # print trans.shape
-    dists=np.sqrt(np.matrix(test).T+train-2*trans)
-    # print dists.shape
+    # dists=np.sqrt(np.matrix(np.sum(np.square(X),axis=1)).T+np.sum(np.square(self.X_train),axis=1)-2*np.dot(X,self.X_train.T))
+    dists = np.sqrt(-2*np.dot(X, self.X_train.T) + np.sum(np.square(self.X_train), axis = 1) + np.transpose([np.sum(np.square(X), axis = 1)]))
+    # why first is error when cross validation?
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -160,7 +155,7 @@ class KNearestNeighbor(object):
       # neighbors. Store these labels in closest_y.                           #
       # Hint: Look up the function numpy.argsort.                             #
       #########################################################################
-      closest_y=self.y_train[np.argsort(dists[i,:])[0:k]]
+      closest_y = self.y_train[np.argsort(dists[i])[:k]]
       #########################################################################
       # TODO:                                                                 #
       # Now that you have found the labels of the k nearest neighbors, you    #
