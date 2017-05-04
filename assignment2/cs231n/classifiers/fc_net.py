@@ -296,7 +296,7 @@ class FullyConnectedNet(object):
       if self.use_batchnorm:
         dx, dw, db, dgamma, dbeta = affine_bn_relu_backward(dhidden, affine_bn_relu_cache[i])
         grads['gamma%d'%(i)] = dgamma
-        grads['dbeta%d'%(i)] = dbeta
+        grads['beta%d'%(i)] = dbeta
       else:
         dx, dw, db = affine_relu_backward(dhidden, affine_relu_cache[i])
       grads['W%d'%(i)] = dw + self.reg * self.params['W%d'%(i)]
