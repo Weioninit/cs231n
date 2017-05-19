@@ -1,3 +1,4 @@
 tiny-imagenet-100-A/*
 coco_captioning.zip
 pretrained_model.h5
+coco_captioning/*
