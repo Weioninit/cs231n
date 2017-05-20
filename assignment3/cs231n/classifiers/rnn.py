@@ -145,6 +145,8 @@ class CaptioningRNN(object):
     # s3
     if self.cell_type == 'rnn':
       h, cache_rnn = rnn_forward(x, h0, Wx, Wh, b)
+    elif self.cell_type == 'lstm':
+      h, cache_rnn = lstm_forward(x, h0, Wx, Wh, b)
     # s4
     scores, cache_scores = temporal_affine_forward(h, W_vocab, b_vocab)
     loss, dscores = temporal_softmax_loss(scores, captions_out, mask, verbose=False)
@@ -156,6 +158,8 @@ class CaptioningRNN(object):
 
     if self.cell_type == 'rnn':
       dx, dh0, dWx, dWh, db = rnn_backward(dh, cache_rnn)
+    elif self.cell_type == 'lstm':
+      dx, dh0, dWx, dWh, db = lstm_backward(dh, cache_rnn)
     
     dW_embed = word_embedding_backward(dx, cache_embedding)
 
