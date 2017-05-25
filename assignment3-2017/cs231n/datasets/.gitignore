@@ -1,0 +1,6 @@
+*.zip
+squeezenet.*
+imagenet*
+coco2014*
+train2014*
+val2014*
